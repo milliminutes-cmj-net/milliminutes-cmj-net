@@ -11,4 +11,4 @@ anciennement **[https://lepripri.github.io/home/](https://milliminutes-cmj-net.g
 - Snapchat : [https://www.snapchat.com/add/lepripri.github](https://www.snapchat.com/add/lepripri.github)
 - github : [https://github.com/milliminutes-cmj-net](https://github.com/milliminutes-cmj-net)
 
-Camille of milliminutes - *![rien pour l'instant !](https://milliminutes-cmj-net.github.io/) - ©milliminutes - all right reserved.
+Camille of milliminutes - *[rien pour l'instant !](https://milliminutes-cmj-net.github.io/)* - ©milliminutes - all right reserved.
