@@ -77,5 +77,6 @@ Simply find the green grass (green areas) and enter it.
 **The window may take 2 seconds to appear.**
 ---
 ## partie 1 : [visite difficile des galeries \(partie 1\)](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/)
-## plan des tunnels : [ouvrir](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/assets/c1365f224b2d5b93c60afaa02b7ed63c.svg)
-## ressources : [ouvrir](/game/assets/)
+### plan des tunnels : [ouvrir](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/assets/c1365f224b2d5b93c60afaa02b7ed63c.svg)
+### ressources : [ouvrir](/game/assets/)
+---
