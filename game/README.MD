@@ -97,5 +97,5 @@ Simply find the green grass (green areas) and enter it.
 > merci de bien vouloir faire tout dans l'ordre / Please do everything in order..
 ---
 ## [visite difficile des galeries \(partie 1\)](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/)
-### [plan des tunnels](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/assets/c1365f224b2d5b93c60afaa02b7ed63c.svg) - [ressources](/game/assets/)
+### 40 parcours - [plan des tunnels](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/assets/c1365f224b2d5b93c60afaa02b7ed63c.svg) - [ressources](/game/assets/)
 ---
