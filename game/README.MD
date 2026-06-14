@@ -1,12 +1,18 @@
 # [visite difficile des galeries](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/)
 ## français
 ### comment jouer
+
 1. **sélectionnez votre personnage**
+
 lorsque vous êtes sur la page d'acceil, l'intérface vous propose (exige le personnage sur la partie 1) désormais 4 personnages (ou plus dans certaines parties).
 - sélectionnez en faisant un clique sur le personnage.
+
 2. **démarez la partie**
+
 cliquez sur **"commencer !"** pour commencer.
+
 3. **comment se déplacer**
+
 utilisez les flèches à l'écran
 
 ![⬆️](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/assets/3a22f6d53730b9c481fd90e6498b8a31.svg) : pour monter (clavier : ⬆️)
@@ -24,6 +30,7 @@ utilisez les flèches à l'écran
 ![🏴](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/assets/37e63cb87617d7f7c3b61c21220593e0.svg) : relancer le jeux en cas de crash
 
 4. **⚠️ attention au pièges**
+
 * **parties rouges**
   - pripri mort en 30 secondes
   - le reste désintégré
@@ -34,17 +41,25 @@ on est à l'opposé du rouge :
   - le reste survies
 * **le hors-piste**
 faite très attention à que le personnage ne dépasse pas la ligne noir pour toucher la partie grise, sinon game over instantané !
+
 5. **comment terminer un niveau**
+
 il suffit juste de trouver l'herbe verte (zones vertes) et d'y entrer.
 **la fenêtre peut prend 2 secondes à s'afficher.**
+
 ## english
 #### ⚠️ **french version only from UI**
 ### get started
+
 1. **Select your character**
+
 When you are on the home screen, the interface now offers you (requires the character from Part 1) 4 characters (or more in some parts).
 - Select the character with a click.
+
 2. **Start the game**
+
 Click on **"*commencer !*"** to start.
+
 3. **commands**
 
 ![⬆️](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/assets/3a22f6d53730b9c481fd90e6498b8a31.svg) : up (key : ⬆️)
@@ -62,6 +77,7 @@ Click on **"*commencer !*"** to start.
 ![🏴](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/assets/37e63cb87617d7f7c3b61c21220593e0.svg) : restart the game in case of a crash
 
 4. **⚠️ Watch out for traps**
+
 * **Red areas**
   - Pripri dies in 30 seconds
   - The rest disintegrates
@@ -72,7 +88,9 @@ This is the opposite of red areas:
   - The rest survives
 * **Off-road**
 Be very careful that the character does not cross the black line to touch the gray area, otherwise it's instant game over!
+
 5. **How ​​to complete a level:**
+
 Simply find the green grass (green areas) and enter it.
 **The window may take 2 seconds to appear.**
 
