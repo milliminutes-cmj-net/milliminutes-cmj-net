@@ -1,6 +1,6 @@
 # [visite difficile des galeries \(partie 1\)](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/)
-# français
-## comment jouer
+## français
+### comment jouer
 1. **sélectionnez votre personnage**
 lorsque vous êtes sur la page d'acceil, l'intérface vous propose (exige le personnage sur la partie 1) désormais 4 personnages (ou plus dans certaines parties).
 - sélectionnez en faisant un clique sur le personnage.
@@ -37,9 +37,9 @@ faite très attention à que le personnage ne dépasse pas la ligne noir pour to
 5. **comment terminer un niveau**
 il suffit juste de trouver l'herbe verte (zones vertes) et d'y entrer.
 **la fenêtre peut prend 2 secondes à s'afficher.**
-# english
-### ⚠️ **french version only from UI**
-## get started
+## english
+#### ⚠️ **french version only from UI**
+### get started
 1. **Select your character**
 When you are on the home screen, the interface now offers you (requires the character from Part 1) 4 characters (or more in some parts).
 - Select the character with a click.
@@ -76,5 +76,5 @@ Be very careful that the character does not cross the black line to touch the gr
 Simply find the green grass (green areas) and enter it.
 **The window may take 2 seconds to appear.**
 ---
-# plan des tunnels : [ouvrir](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/assets/c1365f224b2d5b93c60afaa02b7ed63c.svg)
-# ressources : [ouvrir](/game/assets/)
+## plan des tunnels : [ouvrir](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/assets/c1365f224b2d5b93c60afaa02b7ed63c.svg)
+## ressources : [ouvrir](/game/assets/)
