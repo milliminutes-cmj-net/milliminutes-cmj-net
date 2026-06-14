@@ -76,6 +76,8 @@ Be very careful that the character does not cross the black line to touch the gr
 Simply find the green grass (green areas) and enter it.
 **The window may take 2 seconds to appear.**
 ---
+> merci de bien vouloir faire dans l'ordre / Please do it in order.
+---
 ## [visite difficile des galeries \(partie 1\)](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/)
 ### [plan des tunnels](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/assets/c1365f224b2d5b93c60afaa02b7ed63c.svg) - [ressources](/game/assets/)
 ---
