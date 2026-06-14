@@ -7,13 +7,21 @@ lorsque vous êtes sur la page d'acceil, l'intérface vous propose (exige le per
 cliquez sur **"commencer !"** pour commencer.
 3. **comment se déplacer**
 utilisez les flèches à l'écran
+
 ![⬆️](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/assets/3a22f6d53730b9c481fd90e6498b8a31.svg) : pour monter (clavier : ⬆️)
+
 ![⬇️](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/assets/bfb5a5a95c3d3f780587d1516779e939.svg) : pour déscendre (clavier : ⬇️)
+
 ![⬅️](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/assets/ec5a3cfcbd0c0a33c87588be274f6991.svg) : pour avancer à gauche (clavier : ⬅️)
+
 ![➡️](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/assets/ffb5eab7fdc6573e242214128c58f254.svg) : pour avancer à droite (clavier : ➡️)
+
 ![↩️](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/assets/f1646e1d8e880208d7ef5453ddb1a08a.svg) : tourner votre personnage de 10° antihoraire (clavier : `-`)
+
 ![↪️](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/assets/e27a6b58f12fcf88cfa64b80e481e5df.svg) : tourner votre personnage de 10° horaire (clavier : `+`)
+
 ![🏴](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/assets/37e63cb87617d7f7c3b61c21220593e0.svg) : relancer le jeux en cas de crash
+
 4. **⚠️ attention au pièges**
 * **parties rouges**
   - pripri mort en 30 secondes
@@ -37,13 +45,21 @@ When you are on the home screen, the interface now offers you (requires the char
 2. **Start the game**
 Click on **"*commencer !*"** to start.
 3. **commands**
+
 ![⬆️](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/assets/3a22f6d53730b9c481fd90e6498b8a31.svg) : up (key : ⬆️)
+
 ![⬇️](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/assets/bfb5a5a95c3d3f780587d1516779e939.svg) : down (key : ⬇️)
+
 ![⬅️](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/assets/ec5a3cfcbd0c0a33c87588be274f6991.svg) : left (key : ⬅️)
+
 ![➡️](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/assets/ffb5eab7fdc6573e242214128c58f254.svg) : right (key : ➡️)
+
 ![↩️](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/assets/f1646e1d8e880208d7ef5453ddb1a08a.svg) : rotate your character 10° counterclockwise (key : `-`)
+
 ![↪️](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/assets/e27a6b58f12fcf88cfa64b80e481e5df.svg) : rotate your character 10° clockwise (key : `+`)
+
 ![🏴](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/assets/37e63cb87617d7f7c3b61c21220593e0.svg) : restart the game in case of a crash
+
 4. **⚠️ Watch out for traps**
 * **Red areas**
   - Pripri dies in 30 seconds
