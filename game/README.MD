@@ -1,3 +1,4 @@
+# [visite difficile des galeries \(partie 1\)](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/)
 # français
 ## comment jouer
 1. **sélectionnez votre personnage**
