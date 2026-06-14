@@ -26,13 +26,13 @@ When you are on the home screen, the interface now offers you (requires the char
 Click on **"*commencer !*"** to start.
 3. **⚠️ Watch out for traps**
 * **Red areas**
-- Pripri dies in 30 seconds
-- The rest disintegrates
-- In Part 3, Jackball resists without limit
+  - Pripri dies in 30 seconds
+  - The rest disintegrates
+  - In Part 3, Jackball resists without limit
 * **Purple areas**
 This is the opposite of red areas:
-- Pripri dies instantly (becomes a gas like $H^2$)
-- The rest survives
+  - Pripri dies instantly (becomes a gas like $H^2$)
+  - The rest survives
 * **Off-road**
 Be very careful that the character does not cross the black line to touch the gray area, otherwise it's instant game over!
 ---
