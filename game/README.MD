@@ -75,7 +75,7 @@ Be very careful that the character does not cross the black line to touch the gr
 5. **How ​​to complete a level:**
 Simply find the green grass (green areas) and enter it.
 **The window may take 2 seconds to appear.**
----
+
 > merci de bien vouloir faire dans l'ordre / Please do it in order.
 ---
 ## [visite difficile des galeries \(partie 1\)](https://milliminutes-cmj-net.github.io/milliminutes-cmj-net/game/)
