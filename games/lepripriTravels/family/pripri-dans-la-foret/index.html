@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<!-- Created with https://packager.turbowarp.org/ -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <!-- We only include this to explicitly loosen the CSP of various packager environments. It does not provide any security. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: blob:">
+  <title>pripri dans la forêt</title>
+  <style>
+    body {
+      color: #000000;
+      font-family: sans-serif;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+    :root, body.is-fullscreen {
+      background-color: #ffffff;
+    }
+    [hidden] {
+      display: none !important;
+    }
+    h1 {
+      font-weight: normal;
+    }
+    a {
+      color: inherit;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    #app, #loading, #error, #launch {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      cursor: default;
+      user-select: none;
+      -webkit-user-select: none;
+      background-color: #ffffff;
+    }
+    #launch {
+      background-color: rgba(0, 0, 0, 0.7);
+      cursor: pointer;
+    }
+    .green-flag {
+      width: 80px;
+      height: 80px;
+      padding: 16px;
+      border-radius: 100%;
+      background: rgba(255, 255, 255, 0.75);
+      border: 3px solid hsla(0, 100%, 100%, 1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+    }
+    #loading {
+      
+    }
+    .progress-bar-outer {
+      border: 1px solid currentColor;
+      height: 10px;
+      width: 200px;
+      max-width: 200px;
+    }
+    .progress-bar-inner {
+      height: 100%;
+      width: 0;
+      background-color: currentColor;
+    }
+    .loading-text, noscript {
+      font-weight: normal;
+      font-size: 36px;
+      margin: 0 0 16px;
+    }
+    .loading-image {
+      margin: 0 0 16px;
+    }
+    #error-message, #error-stack {
+      font-family: monospace;
+      max-width: 600px;
+      white-space: pre-wrap;
+      user-select: text;
+      -webkit-user-select: text;
+    }
+    #error-stack {
+      text-align: left;
+      max-height: 200px;
+      overflow: auto;
+    }
+    .control-button {
+      width: 2rem;
+      height: 2rem;
+      padding: 0.375rem;
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+      user-select: none;
+      -webkit-user-select: none;
+      cursor: pointer;
+      border: 0;
+      border-radius: 4px;
+    }
+    .control-button-highlight:hover {
+      background: #00000026;
+    }
+    .control-button-highlight.active {
+      background: #00000059;
+    }
+    .fullscreen-button {
+      background: white;
+    }
+    .standalone-fullscreen-button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 0 0 0 4px;
+      padding: 4px;
+      cursor: pointer;
+    }
+    .sc-canvas {
+      cursor: auto;
+    }
+    .sc-monitor-root[data-opcode^="data_"] .sc-monitor-value-color {
+      background-color: #000000;
+    }
+    .sc-monitor-row-value-outer {
+      background-color: #000000;
+    }
+    .sc-monitor-row-value-editing .sc-monitor-row-value-outer {
+      background-color: #000000;
+    }
+    
+  </style>
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACUAAAAkCAMAAAA5HAOUAAACPVBMVEUAAAD/AP//AP//AP//AP//AIX/AAD/AP//AAAA////AP//AAAA////AP//AAD/AP//AIj/AAD/AAD/AP//AP//AIz/AAD/AJP/AP//AP//AP//AP//AKL/AAD/AAD//wD/AKj/AK3/AAD/AAAA////AAD/AP//iQBCvb3/ANr/qQD//wAA////niD/VnAA//85xsZjnNL/kEn/AAD/AAD/BQb/AwT/BQYA///8jsf8lL78lb78l8H8l8L8mcT8mcX8msb8nMj8nsr8n8z8oM38os/8pNL8pdT8peX8ptX8qdj8qdn8qeT8qtr8q9v8q9z8rN38r+D8r+L8sOH8sOL8seP9V379WXL9WnP9W3X9XHb9XvD9X3r9YX39Yn79Y8b9ZID9ZIH9ZYH9ZoP9Z4T9aYX9aYb9aof9asL9bIv9bo39cI/9cpL9c5P9dZX9dZb9eJr9e579fJ79fJ/9fKD9faD9f6P9gqb9hav9her9hqz9h7/9i7L9jLT9jbX9j7f9krz9k73+E4/+Hib+Hyf+JzL+KTX+KjX+LbH+LrL+LrP+Lzz+MT7+M9f+NEP+NLj+N0b+OYL+Okv+Orv+Pon+QVT+Q1X+RtH+R5X+SV3+SdX+S2D+TGH+TGL+T2X+UGb+Umn+U2r+U2v+VW3+Vbz+Vm7+VnD+V2/+V3D+WHH/AAD/AAX/AGX/AM7/AP//Af//BQb/Cg3/DhL/DxP/DxT/D4v/EBT/ECX/Ehf/FRv/Fhz/GB7/HCT//wD///+lcXgSAAAAOHRSTlMACg4PERcYGh8kJi4wMjMzPEBEREpUWnR2d3p9foaOj5CZnJ6gpqersbW7vsTIzc/P2Nze5/3+/jlyw1IAAAABYktHRL6k3IPDAAABs0lEQVQ4y2NgAALtvdiBPAMSEFTXQgO6RmCgJ4CkSnYVOlizDgLEkVWZJsasKA1BBkFBy/JSZqCpio3KXh6KAlxT5idPQVO1Mq1kEUjOq2D5nKiqYCArYFFuxUQ0VUXLFzWGhoYkbesLm9zRtHV6dHT0rM6u3nWakiAgwQVRBbYkZFqbXWjl+nWYQBpJVUK7P5D08fDwsNxeDSQ94tfJsIAAMwMDBx+fMliV/2ZbuNvTJ4DIjHUK/Pz8jCCDlIDBswEkVtaN8KH3Rj+wqrVA63jBqkyEVM1BMilzli+wdwAy7K0WRu2xAatSFJaCqjKGuitzaoJz6kIgY3mMV+ROR7AqcQYRNFV1zclL3eaGhvpGuCyO2xKIQ1VIS3FoaFR9aFZtaOiceaE4VIVW7bAO9Z29IDw0NGeXO05VofnbkryBlNPM3dahuFWFWk/a2NrTsmmBZyg+VcCAqilvCIRxcKpCAWiqzArRwBIw6EdVhZ6gV6+Dp2iEKjZuENAw4IYBDUNRCGBFUgUBKjrwZInEJEmVmBxeVexqTMhZF4cqdDAAqvR5gIATjYmhygIEdNCYgxsAAFmKF5UTu6AUAAAAAElFTkSuQmCC">
+</head>
+<body>
+  <div id="app"></div>
+
+  <div id="launch" class="screen" hidden title="Click to start">
+    <div class="green-flag">
+      <svg viewBox="0 0 16.63 17.5" width="42" height="44">
+        <defs><style>.cls-1,.cls-2{fill:#4cbf56;stroke:#45993d;stroke-linecap:round;stroke-linejoin:round;}.cls-2{stroke-width:1.5px;}</style></defs>
+        <path class="cls-1" d="M.75,2A6.44,6.44,0,0,1,8.44,2h0a6.44,6.44,0,0,0,7.69,0V12.4a6.44,6.44,0,0,1-7.69,0h0a6.44,6.44,0,0,0-7.69,0"/>
+        <line class="cls-2" x1="0.75" y1="16.75" x2="0.75" y2="0.75"/>
+      </svg>
+    </div>
+  </div>
+
+  <div id="loading" class="screen">
+    <noscript>Enable JavaScript</noscript>
+    
+    
+    
+  </div>
+
+  <div id="error" class="screen" hidden>
+    <h1>Error</h1>
+    <details>
+      <summary id="error-message"></summary>
+      <p id="error-stack"></p>
+    </details>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    const appElement = document.getElementById('app');
+    const launchScreen = document.getElementById('launch');
+    const loadingScreen = document.getElementById('loading');
+    const loadingInner = document.getElementById('loading-inner');
+    const errorScreen = document.getElementById('error');
+    const errorScreenMessage = document.getElementById('error-message');
+    const errorScreenStack = document.getElementById('error-stack');
+
+    const handleError = (error) => {
+      console.error(error);
+      if (!errorScreen.hidden) return;
+      errorScreen.hidden = false;
+      errorScreenMessage.textContent = '' + error;
+      let debug = error && error.stack || 'no stack';
+      debug += '\nUser agent: ' + navigator.userAgent;
+      errorScreenStack.textContent = debug;
+    };
+    const setProgress = (progress) => {
+      if (loadingInner) loadingInner.style.width = progress * 100 + '%';
+    };
+    const interpolate = (a, b, t) => a + t * (b - a);
+
+    try {
+      setProgress(0.1);
+
+      const scaffolding = new Scaffolding.Scaffolding();
+      scaffolding.width = 480;
+      scaffolding.height = 360;
+      scaffolding.resizeMode = "preserve-ratio";
+      scaffolding.editableLists = false;
+      scaffolding.usePackagedRuntime = true;
+      scaffolding.setup();
+      scaffolding.appendTo(appElement);
+
+      const vm = scaffolding.vm;
+      window.scaffolding = scaffolding;
+      window.vm = scaffolding.vm;
+      window.Scratch = {
+        vm,
+        renderer: vm.renderer,
+        audioEngine: vm.runtime.audioEngine,
+        bitmapAdapter: vm.runtime.v2BitmapAdapter,
+        videoProvider: vm.runtime.ioDevices.video.provider
+      };
+
+      scaffolding.setUsername("player####".replace(/#/g, () => Math.floor(Math.random() * 10)));
+      scaffolding.setAccentColor("#000000");
+
+      try {
+        scaffolding.addCloudProvider(new Scaffolding.Cloud.WebSocketProvider(["wss://clouddata.turbowarp.org","wss://clouddata.turbowarp.xyz"], "p4-@pripri dans la forêt.sb3"));
+      } catch (error) {
+        console.error(error);
+      }
+
+      vm.setTurboMode(false);
+      if (vm.setInterpolation) vm.setInterpolation(false);
+      if (vm.setFramerate) vm.setFramerate(30);
+      if (vm.renderer.setUseHighQualityRender) vm.renderer.setUseHighQualityRender(false);
+      if (vm.setRuntimeOptions) vm.setRuntimeOptions({
+        fencing: true,
+        miscLimits: true,
+        maxClones: 300,
+      });
+      if (vm.setCompilerOptions) vm.setCompilerOptions({
+        enabled: true,
+        warpTimer: false
+      });
+      if (vm.renderer.setMaxTextureDimension) vm.renderer.setMaxTextureDimension(2048);
+
+      // enforcePrivacy threat model only makes sense in the editor
+      if (vm.runtime.setEnforcePrivacy) vm.runtime.setEnforcePrivacy(false);
+
+      if (typeof ScaffoldingAddons !== 'undefined') {
+        ScaffoldingAddons.run(scaffolding, {"gamepad":false,"pointerlock":false,"specialCloudBehaviors":false,"unsafeCloudBehaviors":false,"pause":false});
+      }
+
+      scaffolding.setExtensionSecurityManager({
+        getSandboxMode: () => 'unsandboxed',
+        canLoadExtensionFromProject: () => true
+      });
+      for (const extension of ["data:text/javascript;,(function(Scratch)%20%7B%20%2F%2F%20Name%3A%20Local%20Storage%0A%2F%2F%20ID%3A%20localstorage%0A%2F%2F%20Description%3A%20Store%20data%20persistently.%20Like%20cookies%2C%20but%20better.%0A%2F%2F%20By%3A%20infernostars%0A%2F%2F%20By%3A%20GarboMuffin%0A%2F%2F%20License%3A%20MIT%20AND%20MPL-2.0%0A%0A%2F*%20generated%20l10n%20code%20*%2FScratch.translate.setup(%7B%22de%22%3A%7B%22_Local%20Storage%22%3A%22Speicherplatz%22%7D%2C%22es%22%3A%7B%22_Local%20Storage%22%3A%22Almacenaje%20Local%22%2C%22_No%20namespace%20set%22%3A%22No%20namespace%20establecido%22%2C%22_delete%20%5BKEY%5D%20from%20storage%22%3A%22borrar%20%5BKEY%5D%20del%20almacenaje%22%2C%22_delete%20storage%22%3A%22borrar%20almacenaje%22%2C%22_get%20%5BKEY%5D%20from%20storage%22%3A%22obtener%20%5BKEY%5D%20del%20almacenaje%22%2C%22_project%20title%22%3A%22t%C3%ADtulo%20del%20proyecto%22%2C%22_score%22%3A%22puntos%22%2C%22_set%20%5BKEY%5D%20to%20%5BVALUE%5D%20in%20storage%22%3A%22fijar%20%5BKEY%5D%20a%20%5BVALUE%5D%20en%20almacenaje%22%2C%22_set%20namespace%20to%20%5BID%5D%22%3A%22fijar%20namespace%20a%20%5BID%5D%22%2C%22_when%20another%20window%20changes%20storage%22%3A%22cuando%20otra%20ventana%20cambia%20el%20almacenaje%22%7D%2C%22fi%22%3A%7B%22_Local%20Storage%22%3A%22Paikallinen%20muisti%22%2C%22_Local%20Storage%20extension%3A%20project%20must%20run%20the%20%5C%22set%20storage%20namespace%20ID%5C%22%20block%20before%20it%20can%20use%20other%20blocks%22%3A%22Paikallinen%20muisti%20-laajennus%3A%20projektissa%20t%C3%A4ytyy%20suorittaa%20%5C%22aseta%20muistin%20nimiavaruustunnisteeksi%5C%22%20-lohko%20ennen%20kuin%20muita%20lohkoja%20voidaan%20suorittaa.%22%2C%22_project%20title%22%3A%22projektin%20otsikko%22%2C%22_score%22%3A%22pisteet%22%2C%22_when%20another%20window%20changes%20storage%22%3A%22kun%20toinen%20ikkuna%20muuttaa%20muistia%22%7D%2C%22it%22%3A%7B%22_Local%20Storage%22%3A%22Memoria%20Locale%22%2C%22_Local%20Storage%20extension%3A%20project%20must%20run%20the%20%5C%22set%20storage%20namespace%20ID%5C%22%20block%20before%20it%20can%20use%20other%20blocks%22%3A%22Estensione%20Archiviazione%20Locale%3A%20il%20progetto%20deve%20eseguire%20il%20blocco%20%5C%22imposta%20ID%20spazio%20di%20archiviazione%5C%22%20prima%20di%20usare%20gli%20altri%20blocchi%22%2C%22_No%20namespace%20set%22%3A%22Nessun%20namespace%20impostato%22%2C%22_delete%20%5BKEY%5D%20from%20storage%22%3A%22rimuovi%20%5BKEY%5D%20da%20archivio%22%2C%22_delete%20storage%22%3A%22svuota%20archivio%22%2C%22_get%20%5BKEY%5D%20from%20storage%22%3A%22ottieni%20%5BKEY%5D%20da%20archivio%22%2C%22_project%20title%22%3A%22titolo%20progetto%22%2C%22_score%22%3A%22punteggio%22%2C%22_set%20%5BKEY%5D%20to%20%5BVALUE%5D%20in%20storage%22%3A%22porta%20%5BKEY%5D%20a%20%5BVALUE%5D%20in%20archivio%22%2C%22_set%20namespace%20to%20%5BID%5D%22%3A%22imposta%20namespace%20a%20%5BID%5D%22%2C%22_when%20another%20window%20changes%20storage%22%3A%22quando%20altra%20finestra%20cambia%20spazio%20di%20archiviazione%22%7D%2C%22ja%22%3A%7B%22_Local%20Storage%22%3A%22%E3%83%AD%E3%83%BC%E3%82%AB%E3%83%AB%E3%82%B9%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B8%22%2C%22_Local%20Storage%20extension%3A%20project%20must%20run%20the%20%5C%22set%20storage%20namespace%20ID%5C%22%20block%20before%20it%20can%20use%20other%20blocks%22%3A%22%E3%83%AD%E3%83%BC%E3%82%AB%E3%83%AB%E3%82%B9%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B8%E6%8B%A1%E5%BC%B5%E6%A9%9F%E8%83%BD%EF%BC%9A%E4%BB%96%E3%81%AE%E3%83%96%E3%83%AD%E3%83%83%E3%82%AF%E3%82%92%E5%AE%9F%E8%A1%8C%E3%81%99%E3%82%8B%E5%89%8D%E3%81%AB%E3%80%81%E3%80%8C%E3%82%B9%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B8%E3%81%AE%E5%90%8D%E5%89%8D%E3%82%92()%E3%81%AB%E3%81%99%E3%82%8B%E3%80%8D%E3%83%96%E3%83%AD%E3%83%83%E3%82%AF%E3%82%92%E5%AE%9F%E8%A1%8C%E3%81%99%E3%82%8B%E5%BF%85%E8%A6%81%E3%81%8C%E3%81%82%E3%82%8A%E3%81%BE%E3%81%99%E3%80%82%22%2C%22_Namespace%3A%20%7Bnamespace%7D%22%3A%22%E5%90%8D%E5%89%8D%E7%A9%BA%E9%96%93%3A%20%7Bnamespace%7D%22%2C%22_No%20namespace%20set%22%3A%22%E5%90%8D%E5%89%8D%E7%A9%BA%E9%96%93%E3%81%8C%E8%A8%AD%E5%AE%9A%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%81%BE%E3%81%9B%E3%82%93%22%2C%22_delete%20%5BKEY%5D%20from%20storage%22%3A%22%E3%82%B9%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B8%E3%81%8B%E3%82%89%5BKEY%5D%E3%82%92%E5%89%8A%E9%99%A4%E3%81%99%E3%82%8B%22%2C%22_delete%20storage%22%3A%22%E3%82%B9%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B8%E3%82%92%E5%89%8A%E9%99%A4%E3%81%99%E3%82%8B%22%2C%22_get%20%5BKEY%5D%20from%20storage%22%3A%22%E3%82%B9%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B8%E3%81%8B%E3%82%89%5BKEY%5D%E3%82%92%E5%8F%96%E5%BE%97%22%2C%22_project%20title%22%3A%22%E3%83%97%E3%83%AD%E3%83%B3%E3%83%97%E3%83%88%E3%81%AE%E3%82%BF%E3%82%A4%E3%83%88%E3%83%AB%22%2C%22_score%22%3A%22%E3%82%B9%E3%82%B3%E3%82%A2%22%2C%22_set%20%5BKEY%5D%20to%20%5BVALUE%5D%20in%20storage%22%3A%22%E3%82%B9%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B8%E3%81%AE%5BKEY%5D%E3%82%92%5BVALUE%5D%E3%81%AB%E3%81%99%E3%82%8B%22%2C%22_set%20namespace%20to%20%5BID%5D%22%3A%22%E5%90%8D%E5%89%8D%E7%A9%BA%E9%96%93%E3%82%92%5BID%5D%E3%81%AB%E3%81%99%E3%82%8B%22%2C%22_when%20another%20window%20changes%20storage%22%3A%22%E4%BB%96%E3%81%AE%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%89%E3%82%A6%E3%81%8C%E3%82%B9%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B8%E3%82%92%E5%A4%89%E3%81%88%E3%81%9F%E3%81%A8%E3%81%8D%22%7D%2C%22ko%22%3A%7B%22_Local%20Storage%22%3A%22%EB%A1%9C%EC%BB%AC%20%EC%8A%A4%ED%86%A0%EB%A6%AC%EC%A7%80%22%2C%22_Local%20Storage%20extension%3A%20project%20must%20run%20the%20%5C%22set%20storage%20namespace%20ID%5C%22%20block%20before%20it%20can%20use%20other%20blocks%22%3A%22%EB%A1%9C%EC%BB%AC%20%EC%8A%A4%ED%86%A0%EB%A6%AC%EC%A7%80%20%ED%99%95%EC%9E%A5%20%EA%B8%B0%EB%8A%A5%3A%20%ED%99%95%EC%9E%A5%20%EA%B8%B0%EB%8A%A5%EC%9D%98%20%EB%B8%94%EB%A1%9D%EC%9D%84%20%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0%20%EC%A0%84%EC%97%90%20%EB%B0%98%EB%93%9C%EC%8B%9C%20%5C%22%EC%8A%A4%ED%86%A0%EB%A6%AC%EC%A7%80%EC%9D%98%20%EB%84%A4%EC%9E%84%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4%20ID%EB%A5%BC%20...(%EC%9C%BC)%EB%A1%9C%20%EC%A0%95%ED%95%98%EA%B8%B0%5C%22%20%EB%B8%94%EB%A1%9D%EC%9D%84%20%EC%8B%A4%ED%96%89%ED%95%B4%EC%95%BC%20%ED%95%A9%EB%8B%88%EB%8B%A4%22%2C%22_project%20title%22%3A%22%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%A0%9C%EB%AA%A9%22%2C%22_score%22%3A%22%EC%A0%90%EC%88%98%22%2C%22_when%20another%20window%20changes%20storage%22%3A%22%EB%8B%A4%EB%A5%B8%20%EC%B0%BD%EC%97%90%EC%84%9C%20%EC%8A%A4%ED%86%A0%EB%A6%AC%EC%A7%80%EB%A5%BC%20%EB%B3%80%EA%B2%BD%ED%96%88%EC%9D%84%20%EB%95%8C%22%7D%2C%22nb%22%3A%7B%22_Local%20Storage%22%3A%22Lokal%20lagring%22%2C%22_Local%20Storage%20extension%3A%20project%20must%20run%20the%20%5C%22set%20storage%20namespace%20ID%5C%22%20block%20before%20it%20can%20use%20other%20blocks%22%3A%22Lokal%20lagring%20utvidelse%3A%20prosjektet%20m%C3%A5%20kj%C3%B8re%20blokken%20%5C%22sett%20lagringsnavnerom-ID%5C%22%20f%C3%B8r%20det%20kan%20bruke%20andre%20blokker%22%2C%22_project%20title%22%3A%22prosjekttittel%22%2C%22_score%22%3A%22poengsum%22%2C%22_when%20another%20window%20changes%20storage%22%3A%22n%C3%A5r%20et%20annet%20vindu%20endrer%20lagring%22%7D%2C%22nl%22%3A%7B%22_Local%20Storage%22%3A%22Lokale%20opslag%22%2C%22_Local%20Storage%20extension%3A%20project%20must%20run%20the%20%5C%22set%20storage%20namespace%20ID%5C%22%20block%20before%20it%20can%20use%20other%20blocks%22%3A%22Lokale%20opslag-extensie%3A%20het%20project%20moet%20eerst%20een%20opslagnaamruimte-ID%20toegewezen%20krijgen%20voordat%20de%20andere%20blokken%20kunnen%20werken.%22%2C%22_project%20title%22%3A%22projecttitel%22%2C%22_when%20another%20window%20changes%20storage%22%3A%22wanneer%20een%20ander%20venster%20de%20opslag%20aanpast%22%7D%2C%22pl%22%3A%7B%22_project%20title%22%3A%22tytu%C5%82%20projektu%22%2C%22_score%22%3A%22wynik%22%7D%2C%22ru%22%3A%7B%22_Local%20Storage%22%3A%22%D0%9B%D0%BE%D0%BA%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5%20%D0%A5%D1%80%D0%B0%D0%BD%D0%B8%D0%BB%D0%B8%D1%89%D0%B5%22%2C%22_Local%20Storage%20extension%3A%20project%20must%20run%20the%20%5C%22set%20storage%20namespace%20ID%5C%22%20block%20before%20it%20can%20use%20other%20blocks%22%3A%22%D0%A0%D0%B0%D1%81%D1%88%D0%B8%D1%80%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%9B%D0%BE%D0%BA%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5%20%D0%A5%D1%80%D0%B0%D0%BD%D0%B8%D0%BB%D0%B8%D1%89%D0%B5%3A%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%20%D0%B4%D0%BE%D0%BB%D0%B6%D0%B5%D0%BD%20%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D1%82%D0%B8%D1%82%D1%8C%20%D0%B1%D0%BB%D0%BE%D0%BA%20%5C%22%D0%B7%D0%B0%D0%B4%D0%B0%D1%82%D1%8C%20ID%20%D0%BF%D1%80%D0%BE%D1%81%D1%82%D1%80%D0%B0%D0%BD%D1%81%D1%82%D0%B2%D0%B0%20%D0%B8%D0%BC%D0%B5%D0%BD%20%D1%85%D1%80%D0%B0%D0%BD%D0%B8%D0%BB%D0%B8%D1%89%D0%B0%5C%22%2C%20%D0%BF%D1%80%D0%B5%D0%B6%D0%B4%D0%B5%20%D1%87%D0%B5%D0%BC%20%D0%BE%D0%BD%20%D1%81%D0%BC%D0%BE%D0%B6%D0%B5%D1%82%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D1%8C%20%D0%B4%D1%80%D1%83%D0%B3%D0%B8%D0%B5%20%D0%B1%D0%BB%D0%BE%D0%BA%D0%B8%22%2C%22_Namespace%3A%20%7Bnamespace%7D%22%3A%22%D0%9F%D1%80%D0%BE%D1%81%D1%82%D1%80%D0%B0%D0%BD%D1%81%D1%82%D0%B2%D0%BE%3A%20%7Bnamespace%7D%22%2C%22_No%20namespace%20set%22%3A%22%D0%9D%D0%B5%D1%82%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85%20%D0%BF%D1%80%D0%BE%D1%81%D1%82%D1%80%D0%B0%D0%BD%D1%81%D1%82%D0%B2%22%2C%22_delete%20%5BKEY%5D%20from%20storage%22%3A%22%D1%83%D0%B4%D0%B0%D0%BB%D0%B8%D1%82%D1%8C%20%5BKEY%5D%20%D0%B8%D0%B7%20%D1%85%D1%80%D0%B0%D0%BD%D0%B8%D0%BB%D0%B8%D1%89%D0%B0%22%2C%22_delete%20storage%22%3A%22%D1%83%D0%B4%D0%B0%D0%BB%D0%B8%D1%82%D1%8C%20%D1%85%D1%80%D0%B0%D0%BD%D0%B8%D0%BB%D0%B8%D1%89%D0%B5%22%2C%22_get%20%5BKEY%5D%20from%20storage%22%3A%22%D0%BF%D0%BE%D0%BB%D1%83%D1%87%D0%B8%D1%82%D1%8C%20%5BKEY%5D%20%D0%B8%D0%B7%20%D1%85%D1%80%D0%B0%D0%BD%D0%B8%D0%BB%D0%B8%D1%89%D0%B0%22%2C%22_project%20title%22%3A%22%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B0%22%2C%22_score%22%3A%22%D0%BE%D1%87%D0%BA%D0%B8%22%2C%22_set%20%5BKEY%5D%20to%20%5BVALUE%5D%20in%20storage%22%3A%22%D0%B7%D0%B0%D0%B4%D0%B0%D1%82%D1%8C%20%5BKEY%5D%20%D0%BD%D0%B0%20%5BVALUE%5D%20%D0%B2%20%D1%85%D1%80%D0%B0%D0%BD%D0%B8%D0%BB%D0%B8%D1%89%D0%B5%22%2C%22_set%20namespace%20to%20%5BID%5D%22%3A%22%D0%B7%D0%B0%D0%B4%D0%B0%D1%82%D1%8C%20%D0%BF%D1%80%D0%BE%D1%81%D1%82%D1%80%D0%B0%D0%BD%D1%81%D1%82%D0%B2%D0%BE%20%D0%BD%D0%B0%20%5BID%5D%22%2C%22_when%20another%20window%20changes%20storage%22%3A%22%D0%BA%D0%BE%D0%B3%D0%B4%D0%B0%20%D0%B4%D1%80%D1%83%D0%B3%D0%BE%D0%B5%20%D0%BE%D0%BA%D0%BD%D0%BE%20%D0%B8%D0%B7%D0%BC%D0%B5%D0%BD%D1%8F%D0%B5%D1%82%20%D1%85%D1%80%D0%B0%D0%BD%D0%B8%D0%BB%D0%B8%D1%89%D0%B5%22%7D%2C%22uk%22%3A%7B%22_Local%20Storage%22%3A%22%D0%9B%D0%BE%D0%BA%D0%B0%D0%BB%D1%8C%D0%BD%D0%B5%20%D0%A1%D1%85%D0%BE%D0%B2%D0%B8%D1%89%D0%B5%22%7D%2C%22zh-cn%22%3A%7B%22_Local%20Storage%22%3A%22%E6%9C%AC%E5%9C%B0%E5%AD%98%E5%82%A8%22%2C%22_Local%20Storage%20extension%3A%20project%20must%20run%20the%20%5C%22set%20storage%20namespace%20ID%5C%22%20block%20before%20it%20can%20use%20other%20blocks%22%3A%22%E6%9C%AC%E5%9C%B0%E5%AD%98%E5%82%A8%E6%8B%93%E5%B1%95%EF%BC%9A%E8%AF%B7%E5%85%88%E8%BF%90%E8%A1%8C%E2%80%9C%E5%B0%86%E5%AD%98%E5%82%A8%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4ID%E8%AE%BE%E4%B8%BA%E2%80%9D%E7%A7%AF%E6%9C%A8%E6%89%8D%E8%83%BD%E4%BD%BF%E7%94%A8%E4%B8%8B%E9%9D%A2%E7%9A%84%E7%A7%AF%E6%9C%A8%22%2C%22_Namespace%3A%20%7Bnamespace%7D%22%3A%22%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4%EF%BC%9A%7Bnamespace%7D%22%2C%22_No%20namespace%20set%22%3A%22%E6%9C%AA%E8%AE%BE%E7%BD%AE%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4%22%2C%22_delete%20%5BKEY%5D%20from%20storage%22%3A%22%E4%BB%8E%E5%AD%98%E5%82%A8%E4%B8%AD%E5%88%A0%E9%99%A4%5BKEY%5D%22%2C%22_delete%20storage%22%3A%22%E5%88%A0%E9%99%A4%E5%AD%98%E5%82%A8%22%2C%22_get%20%5BKEY%5D%20from%20storage%22%3A%22%E4%BB%8E%E5%AD%98%E5%82%A8%E4%B8%AD%E8%8E%B7%E5%8F%96%5BKEY%5D%22%2C%22_project%20title%22%3A%22%E4%BD%9C%E5%93%81%E6%A0%87%E9%A2%98%22%2C%22_score%22%3A%22%E5%88%86%E6%95%B0%22%2C%22_set%20%5BKEY%5D%20to%20%5BVALUE%5D%20in%20storage%22%3A%22%E5%B0%86%E5%AD%98%E5%82%A8%E4%B8%AD%E7%9A%84%5BKEY%5D%E8%AE%BE%E4%B8%BA%5BVALUE%5D%22%2C%22_set%20namespace%20to%20%5BID%5D%22%3A%22%E5%B0%86%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4%E8%AE%BE%E4%B8%BA%5BID%5D%22%2C%22_when%20another%20window%20changes%20storage%22%3A%22%E5%BD%93%E5%85%B6%E4%BB%96%E9%A1%B5%E9%9D%A2%E4%BF%AE%E6%94%B9%E6%9C%AC%E5%9C%B0%E5%AD%98%E5%82%A8%E6%95%B0%E6%8D%AE%22%7D%7D)%3B%2F*%20end%20generated%20l10n%20code%20*%2F(function%20(Scratch)%20%7B%0A%20%20%22use%20strict%22%3B%0A%0A%20%20if%20(!Scratch.extensions.unsandboxed)%20%7B%0A%20%20%20%20throw%20new%20Error(%22Local%20Storage%20must%20be%20run%20unsandboxed%22)%3B%0A%20%20%7D%0A%0A%20%20const%20getNamespace%20%3D%20()%20%3D%3E%0A%20%20%20%20Scratch.vm.runtime.extensionStorage%5B%22localstorage%22%5D%3F.namespace%3B%0A%0A%20%20%2F**%0A%20%20%20*%20%40param%20%7Bstring%7D%20newNamespace%0A%20%20%20*%2F%0A%20%20const%20setNamespace%20%3D%20(newNamespace)%20%3D%3E%20%7B%0A%20%20%20%20Scratch.vm.runtime.extensionStorage%5B%22localstorage%22%5D%20%3D%20%7B%0A%20%20%20%20%20%20namespace%3A%20newNamespace%2C%0A%20%20%20%20%7D%3B%0A%20%20%20%20readFromStorage()%3B%0A%0A%20%20%20%20%2F%2F%20We%20can%20generate%20namespace%20before%20we%20have%20fully%20loaded%0A%20%20%20%20if%20(Scratch.vm.extensionManager.isExtensionLoaded(%22localstorage%22))%20%7B%0A%20%20%20%20%20%20Scratch.vm.extensionManager.refreshBlocks(%22localstorage%22)%3B%0A%20%20%20%20%7D%0A%20%20%7D%3B%0A%0A%20%20const%20STORAGE_PREFIX%20%3D%20%22extensions.turbowarp.org%2Flocal-storage%3A%22%3B%0A%20%20const%20getStorageKey%20%3D%20()%20%3D%3E%20%60%24%7BSTORAGE_PREFIX%7D%24%7BgetNamespace()%7D%60%3B%0A%0A%20%20%2F**%0A%20%20%20*%20Cached%20in%20memory%20for%20performance.%0A%20%20%20*%20%40type%20%7BRecord%3Cstring%2C%20string%7Cnumber%7Cboolean%3E%7D%0A%20%20%20*%2F%0A%20%20let%20namespaceValues%20%3D%20Object.create(null)%3B%0A%0A%20%20const%20readFromStorage%20%3D%20()%20%3D%3E%20%7B%0A%20%20%20%20namespaceValues%20%3D%20Object.create(null)%3B%0A%0A%20%20%20%20try%20%7B%0A%20%20%20%20%20%20%2F%2F%20localStorage%20could%20throw%20if%20unsupported%0A%20%20%20%20%20%20const%20data%20%3D%20localStorage.getItem(getStorageKey())%3B%0A%20%20%20%20%20%20if%20(data)%20%7B%0A%20%20%20%20%20%20%20%20%2F%2F%20JSON.parse%20could%20throw%20if%20data%20is%20invalid%0A%20%20%20%20%20%20%20%20const%20parsed%20%3D%20JSON.parse(data)%3B%0A%20%20%20%20%20%20%20%20if%20(parsed%20%26%26%20parsed.data)%20%7B%0A%20%20%20%20%20%20%20%20%20%20%2F%2F%20Remove%20invalid%20values%20from%20the%20JSON%0A%20%20%20%20%20%20%20%20%20%20for%20(const%20%5Bkey%2C%20value%5D%20of%20Object.entries(parsed.data))%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20if%20(%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20typeof%20value%20%3D%3D%3D%20%22string%22%20%7C%7C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20typeof%20value%20%3D%3D%3D%20%22number%22%20%7C%7C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20typeof%20value%20%3D%3D%3D%20%22boolean%22%0A%20%20%20%20%20%20%20%20%20%20%20%20)%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20namespaceValues%5Bkey%5D%20%3D%20value%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%20catch%20(error)%20%7B%0A%20%20%20%20%20%20console.error(%22Error%20reading%20from%20local%20storage%22%2C%20error)%3B%0A%20%20%20%20%7D%0A%20%20%7D%3B%0A%0A%20%20const%20saveToLocalStorage%20%3D%20()%20%3D%3E%20%7B%0A%20%20%20%20try%20%7B%0A%20%20%20%20%20%20if%20(Object.keys(namespaceValues).length%20%3E%200)%20%7B%0A%20%20%20%20%20%20%20%20localStorage.setItem(%0A%20%20%20%20%20%20%20%20%20%20getStorageKey()%2C%0A%20%20%20%20%20%20%20%20%20%20JSON.stringify(%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2F%2F%20If%20we%20find%20that%20turbowarp.org%20is%20commonly%20running%20out%20of%20shared%20space%20in%20local%20storage%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%2F%2F%20having%20a%20timestamp%20here%20makes%20it%20at%20least%20theoretically%20possible%20to%20delete%20storage%20based%0A%20%20%20%20%20%20%20%20%20%20%20%20%2F%2F%20on%20last%20used%20time.%0A%20%20%20%20%20%20%20%20%20%20%20%20time%3A%20Math.round(Date.now()%20%2F%201000)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20data%3A%20namespaceValues%2C%0A%20%20%20%20%20%20%20%20%20%20%7D)%0A%20%20%20%20%20%20%20%20)%3B%0A%20%20%20%20%20%20%7D%20else%20%7B%0A%20%20%20%20%20%20%20%20localStorage.removeItem(getStorageKey())%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%20catch%20(error)%20%7B%0A%20%20%20%20%20%20console.error(%22Error%20saving%20to%20local%20storage%22%2C%20error)%3B%0A%20%20%20%20%7D%0A%20%20%7D%3B%0A%0A%20%20window.addEventListener(%22storage%22%2C%20(event)%20%3D%3E%20%7B%0A%20%20%20%20if%20(%0A%20%20%20%20%20%20getNamespace()%20%26%26%0A%20%20%20%20%20%20event.key%20%3D%3D%3D%20getStorageKey()%20%26%26%0A%20%20%20%20%20%20event.storageArea%20%3D%3D%3D%20localStorage%0A%20%20%20%20)%20%7B%0A%20%20%20%20%20%20readFromStorage()%3B%0A%20%20%20%20%20%20Scratch.vm.runtime.startHats(%22localstorage_whenChanged%22)%3B%0A%20%20%20%20%7D%0A%20%20%7D)%3B%0A%0A%20%20const%20generateRandomNamespace%20%3D%20()%20%3D%3E%20%7B%0A%20%20%20%20%2F%2F%20doesn't%20need%20to%20be%20cryptographically%20secure%20and%20doesn't%20need%20to%20have%20excessive%20length%0A%20%20%20%20%2F%2F%20this%20has%2016%5E16%20%3D%2018446744073709551616%20possible%20namespaces%20which%20is%20plenty%0A%20%20%20%20const%20soup%20%3D%20%220123456789abcdef%22%3B%0A%20%20%20%20let%20id%20%3D%20%22%22%3B%0A%20%20%20%20for%20(let%20i%20%3D%200%3B%20i%20%3C%2016%3B%20i%2B%2B)%20%7B%0A%20%20%20%20%20%20id%20%2B%3D%20soup%5BMath.floor(Math.random()%20*%20soup.length)%5D%3B%0A%20%20%20%20%7D%0A%20%20%20%20return%20id%3B%0A%20%20%7D%3B%0A%0A%20%20const%20prepareInitialNamespace%20%3D%20()%20%3D%3E%20%7B%0A%20%20%20%20if%20(getNamespace())%20%7B%0A%20%20%20%20%20%20readFromStorage()%3B%0A%20%20%20%20%7D%20else%20%7B%0A%20%20%20%20%20%20setNamespace(generateRandomNamespace())%3B%0A%20%20%20%20%7D%0A%20%20%7D%3B%0A%0A%20%20Scratch.vm.runtime.on(%22PROJECT_LOADED%22%2C%20()%20%3D%3E%20%7B%0A%20%20%20%20prepareInitialNamespace()%3B%0A%20%20%7D)%3B%0A%0A%20%20Scratch.vm.runtime.on(%22RUNTIME_DISPOSED%22%2C%20()%20%3D%3E%20%7B%0A%20%20%20%20%2F%2F%20Will%20always%20be%20followed%20by%20a%20PROJECT_LOADED%20event%20later%0A%20%20%20%20namespaceValues%20%3D%20Object.create(null)%3B%0A%20%20%7D)%3B%0A%0A%20%20prepareInitialNamespace()%3B%0A%0A%20%20let%20lastNamespaceWarning%20%3D%200%3B%0A%20%20const%20validNamespace%20%3D%20()%20%3D%3E%20%7B%0A%20%20%20%20const%20valid%20%3D%20!!getNamespace()%3B%0A%20%20%20%20if%20(!valid%20%26%26%20Date.now()%20-%20lastNamespaceWarning%20%3E%203000)%20%7B%0A%20%20%20%20%20%20alert(%0A%20%20%20%20%20%20%20%20Scratch.translate(%0A%20%20%20%20%20%20%20%20%20%20'Local%20Storage%20extension%3A%20project%20must%20run%20the%20%22set%20storage%20namespace%20ID%22%20block%20before%20it%20can%20use%20other%20blocks'%0A%20%20%20%20%20%20%20%20)%0A%20%20%20%20%20%20)%3B%0A%20%20%20%20%20%20lastNamespaceWarning%20%3D%20Date.now()%3B%0A%20%20%20%20%7D%0A%20%20%20%20return%20valid%3B%0A%20%20%7D%3B%0A%0A%20%20class%20LocalStorage%20%7B%0A%20%20%20%20getInfo()%20%7B%0A%20%20%20%20%20%20return%20%7B%0A%20%20%20%20%20%20%20%20id%3A%20%22localstorage%22%2C%0A%20%20%20%20%20%20%20%20name%3A%20Scratch.translate(%22Local%20Storage%22)%2C%0A%20%20%20%20%20%20%20%20docsURI%3A%20%22https%3A%2F%2Fextensions.turbowarp.org%2Flocal-storage%22%2C%0A%20%20%20%20%20%20%20%20blocks%3A%20%5B%0A%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20blockType%3A%20Scratch.BlockType.LABEL%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20getNamespace()%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3F%20Scratch.translate(%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20default%3A%20%22Namespace%3A%20%7Bnamespace%7D%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20namespace%3A%20getNamespace()%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3A%20Scratch.translate(%22No%20namespace%20set%22)%2C%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20opcode%3A%20%22get%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20blockType%3A%20Scratch.BlockType.REPORTER%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20Scratch.translate(%22get%20%5BKEY%5D%20from%20storage%22)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20arguments%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20KEY%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20type%3A%20Scratch.ArgumentType.STRING%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20defaultValue%3A%20Scratch.translate(%22score%22)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20opcode%3A%20%22set%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20blockType%3A%20Scratch.BlockType.COMMAND%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20Scratch.translate(%22set%20%5BKEY%5D%20to%20%5BVALUE%5D%20in%20storage%22)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20arguments%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20KEY%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20type%3A%20Scratch.ArgumentType.STRING%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20defaultValue%3A%20Scratch.translate(%22score%22)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20VALUE%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20type%3A%20Scratch.ArgumentType.STRING%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20defaultValue%3A%20%221000%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20opcode%3A%20%22remove%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20blockType%3A%20Scratch.BlockType.COMMAND%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20Scratch.translate(%22delete%20%5BKEY%5D%20from%20storage%22)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20arguments%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20KEY%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20type%3A%20Scratch.ArgumentType.STRING%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20defaultValue%3A%20Scratch.translate(%22score%22)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20opcode%3A%20%22removeAll%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20blockType%3A%20Scratch.BlockType.COMMAND%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20Scratch.translate(%22delete%20storage%22)%2C%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20opcode%3A%20%22whenChanged%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20blockType%3A%20Scratch.BlockType.EVENT%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20Scratch.translate(%22when%20another%20window%20changes%20storage%22)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20isEdgeActivated%3A%20false%2C%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%22---%22%2C%0A%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20opcode%3A%20%22setProjectId%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20blockType%3A%20Scratch.BlockType.COMMAND%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20Scratch.translate(%22set%20namespace%20to%20%5BID%5D%22)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20arguments%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20ID%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20type%3A%20Scratch.ArgumentType.STRING%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20defaultValue%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20getNamespace()%20%7C%7C%20Scratch.translate(%22project%20title%22)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%7D%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20setProjectId(%7B%20ID%20%7D)%20%7B%0A%20%20%20%20%20%20setNamespace(Scratch.Cast.toString(ID))%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20get(%7B%20KEY%20%7D)%20%7B%0A%20%20%20%20%20%20if%20(!validNamespace())%20%7B%0A%20%20%20%20%20%20%20%20return%20%22%22%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20KEY%20%3D%20Scratch.Cast.toString(KEY)%3B%0A%20%20%20%20%20%20if%20(!Object.prototype.hasOwnProperty.call(namespaceValues%2C%20KEY))%20%7B%0A%20%20%20%20%20%20%20%20return%20%22%22%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20return%20namespaceValues%5BKEY%5D%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20set(%7B%20KEY%2C%20VALUE%20%7D)%20%7B%0A%20%20%20%20%20%20if%20(!validNamespace())%20%7B%0A%20%20%20%20%20%20%20%20return%20%22%22%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20namespaceValues%5BScratch.Cast.toString(KEY)%5D%20%3D%20VALUE%3B%0A%20%20%20%20%20%20saveToLocalStorage()%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20remove(%7B%20KEY%20%7D)%20%7B%0A%20%20%20%20%20%20if%20(!validNamespace())%20%7B%0A%20%20%20%20%20%20%20%20return%20%22%22%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20delete%20namespaceValues%5BScratch.Cast.toString(KEY)%5D%3B%0A%20%20%20%20%20%20saveToLocalStorage()%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20removeAll()%20%7B%0A%20%20%20%20%20%20if%20(!validNamespace())%20%7B%0A%20%20%20%20%20%20%20%20return%20%22%22%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20namespaceValues%20%3D%20Object.create(null)%3B%0A%20%20%20%20%20%20saveToLocalStorage()%3B%0A%20%20%20%20%7D%0A%20%20%7D%0A%0A%20%20Scratch.extensions.register(new%20LocalStorage())%3B%0A%7D)(Scratch)%3B%0A%20%7D)(Scratch)%3B"]) {
+        vm.extensionManager.loadExtensionURL(extension);
+      }
+
+    } catch (e) {
+      handleError(e);
+    }
+  </script>
+  
+  
+    <script>
+      const getProjectData = (function() {
+        const storage = scaffolding.storage;
+        storage.onprogress = (total, loaded) => {
+          setProgress(interpolate(0.2, 0.98, loaded / total));
+        };
+        
+        storage.addWebStore(
+          [
+            storage.AssetType.ImageVector,
+            storage.AssetType.ImageBitmap,
+            storage.AssetType.Sound,
+            storage.AssetType.Font
+          ].filter(i => i),
+          (asset) => new URL('./assets/' + asset.assetId + '.' + asset.dataFormat, location).href
+        );
+        return () => new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = () => {
+          resolve(xhr.response);
+        };
+        xhr.onerror = () => {
+          if (location.protocol === 'file:') {
+            reject(new Error('Zip environment must be used on a website, not on a local file. To fix this error, use the "Plain HTML" environment instead.'));
+          } else {
+            reject(new Error('Request to load project data failed.'));
+          }
+        };
+        xhr.onprogress = (e) => {
+          if (e.lengthComputable) {
+            setProgress(interpolate(0.1, 0.2, e.loaded / e.total));
+          }
+        };
+        xhr.responseType = 'arraybuffer';
+        xhr.open('GET', "./assets/project.json");
+        xhr.send();
+      });
+      })();
+    </script>
+  <script>
+    const run = async () => {
+      const projectData = await getProjectData();
+      await scaffolding.loadProject(projectData);
+      setProgress(1);
+      loadingScreen.hidden = true;
+      if (true) {
+        scaffolding.start();
+      } else {
+        launchScreen.hidden = false;
+        launchScreen.addEventListener('click', () => {
+          launchScreen.hidden = true;
+          scaffolding.start();
+        });
+        launchScreen.focus();
+      }
+    };
+    run().catch(handleError);
+  </script>
+</body>
+</html>
